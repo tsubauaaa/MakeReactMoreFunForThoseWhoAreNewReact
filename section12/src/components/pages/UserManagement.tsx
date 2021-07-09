@@ -10,11 +10,13 @@ import UserCard from "../organisms/user/UserCard";
 import UserDetailModal from "../organisms/user/UserDetailModal";
 import { useAllUsers } from "../../hooks/useAllUsers";
 import { useSelectUser } from "../../hooks/useSelectUser";
+import { useLoginUser } from "../../hooks/useLoginUser";
 
 const UserManagement: React.VFC = memo(() => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { getUsers, users, loading } = useAllUsers();
   const { onSelectUser, selectedUser } = useSelectUser();
+  const { loginUser } = useLoginUser();
 
   useEffect(() => {
     getUsers();
@@ -47,7 +49,12 @@ const UserManagement: React.VFC = memo(() => {
           ))}
         </Wrap>
       )}
-      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal
+        user={selectedUser}
+        isOpen={isOpen}
+        isAdmin={loginUser?.isAdmin}
+        onClose={onClose}
+      />
     </>
   );
 });
